@@ -12,7 +12,6 @@
   });
   const isEmail = ref(false);
   const isPassword = ref(false);
-  const token = ref('');
 
   const signin = async () => {    
     const payload = { ...signInField.value };
@@ -28,11 +27,9 @@
     try {
       const res = await axios.post(`${api}/users/sign_in`, signInField.value);
       // API 的 exp 時間是錯的，改用日期加一天
-      token.value = res.data.token;
       document.cookie = `customTodoToken=${res.data.token}; expires=${new Date() + 1}; path=/`;
       router.push('/todoList');
     } catch (err) {
-      console.log({err})
       const errMessage = `${err.response.data.message}`;
       alert(errMessage);
     }
